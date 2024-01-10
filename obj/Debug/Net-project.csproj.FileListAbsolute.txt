@@ -57,3 +57,5 @@ C:\Users\User\Desktop\Code Life\C#\Testing\Net-project\obj\Debug\Net-project.csp
 C:\Users\User\Desktop\Code Life\C#\Testing\Net-project\obj\Debug\Net-project.csproj.CopyComplete
 C:\Users\User\Desktop\Code Life\C#\Testing\Net-project\obj\Debug\Net-project.dll
 C:\Users\User\Desktop\Code Life\C#\Testing\Net-project\obj\Debug\Net-project.pdb
+C:\Users\User\Desktop\Code Life\C#\Testing\Net-project\bin\Newtonsoft.Json.dll
+C:\Users\User\Desktop\Code Life\C#\Testing\Net-project\bin\Newtonsoft.Json.xml

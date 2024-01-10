@@ -41,8 +41,8 @@
                             <td class="d-flex align-items-center justify-content-around">
                                 <button class="btn btn-primary op-btn" onclick='<%# "viewBook(" + Eval("BookID") + ")" %>'>View</button>
                                 <%# Convert.ToInt32(Eval("bookAvailability")) == 1 
-                                        ? "<button class='btn btn-success op-btn'>Borrow</button>"
-                                        : "<button class='btn btn-warning op-btn'>Return</button>"
+                                        ? $"<button class='btn btn-success op-btn' onclick='borrowBook({Eval("bookId")})'>Borrow</button>"
+                                        : $"<button class='btn btn-warning op-btn' onclick='returnBook({Eval("bookId")})'>Return</button>"
                                         %>
                             </td>
                         </tr>
@@ -65,7 +65,6 @@
         }
 
         function handleSearchPageLabelClick(pageNumber, searchString) {
-            console.log(pageNumber, searchString);
             window.location.href = `Default.aspx?page=${pageNumber}&value=${encodeURIComponent(searchString)}`;
         }
 
@@ -99,7 +98,27 @@
         }
 
         const borrowBook = (id) => {
-            console.log(id);
+            const urlParams = new URLSearchParams(window.location.search);
+            const valueFromUrl = urlParams.get('value');
+            const pageFromUrl = urlParams.get('page');
+            if (!valueFromUrl) {
+                if (pageFromUrl) {
+                    window.location.href = `BorrowBook.aspx?id=${id}&page=${pageFromUrl}`;
+                } else {
+                    window.location.href = `BorrowBook.aspx?id=${id}`;
+                }
+            } else {
+                if (pageFromUrl) {
+                    window.location.href = `BorrowBook.aspx?id=${id}&value=${valueFromUrl}&page=${pageFromUrl}`;
+                } else {
+                    window.location.href = `BorrowBook.aspx?id=${id}&value=${valueFromUrl}`;
+                }
+            }
+        }
+
+        const returnBook = (id) => {
+            //here
+            console.log('return');
         }
 
     </script>
