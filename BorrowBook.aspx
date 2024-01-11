@@ -114,6 +114,9 @@
                         }
                     });
                 } else {
+                    const genderDropDown = document.getElementById("gender-dropdown");
+                    const fineStatusDropDown = document.getElementById("fine-status-dropdown");
+
                     dropdown.style['display'] = 'none';
                     nameInput.style['display'] = '';
                     dropdown.removeAttribute('required')
@@ -126,8 +129,13 @@
 
                     dropdownElements.forEach(dropdown => {
                         dropdown.removeAttribute('disabled');
-                        dropdown.value = "";
                     });
+
+                    genderDropDown.value = "male";
+                    fineStatusDropDown.value = "False";
+
+                    $('#name-dropdown').empty();
+                    $('#name-dropdown').append('<option value="">Please select borrower</option>');
                 }
             }
 
@@ -169,7 +177,8 @@
                         contentType: 'application/json; charset=utf-8',
                         dataType: 'json',
                         success: function (data) {
-                            console.log(data);
+                            alert("Saved");
+                            window.location.href = "Default.aspx";
                         },
                         error: function (error) {
                             console.error("Error borrowing book:", error);
@@ -193,7 +202,8 @@
                         contentType: 'application/json; charset=utf-8',
                         dataType: 'json',
                         success: function (data) {
-                            console.log(data);
+                            alert("Saved");
+                            window.location.href = "Default.aspx";
                         },
                         error: function (error) {
                             console.error("Error borrowing book:", error);
