@@ -31,10 +31,12 @@
             <div class="form-outline mb-4">
               <label class="form-label" for="form2Example18">Email</label>
               <input type="email" id="email" runat="server" class="form-control form-control-lg" required/>
+                <asp:Label ID="validEmail" runat="server" ForeColor="Red" />
             </div>
             <div class="form-outline mb-4">
               <label class="form-label" for="form2Example18">Telephone</label>
               <input type="tel" id="telephone" runat="server" class="form-control form-control-lg" required/>
+                <asp:Label ID="validTelephone" runat="server" ForeColor="Red" />
             </div>
             <div class="form-outline mb-4">
               <label class="form-label" for="form2Example18">Gender</label><br />
@@ -48,8 +50,9 @@
             </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example28">Confirm Password</label>
-                <input type="password" id="confirmPassword" runat="server" class="form-control form-control-lg" required/>
-            </div>
+                <input type="password" id="confirmPassword" runat="server" class="form-control form-control-lg" required/> <br />
+                <asp:CompareValidator ID="CVTxt" runat="server" ControlToValidate="password" ControlToCompare="confirmPassword" Type="String" Operator="Equal" ErrorMessage="The password is not same with confirm password!" ForeColor="Red" ></asp:CompareValidator>
+             </div>
 
             <div class="pt-1 mb-4">
                 <asp:Button class="btn btn-info btn-lg btn-block" runat="server" ID="submit" OnClick="UserRegister" text="Register"/>
