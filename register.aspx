@@ -22,7 +22,7 @@
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign up</h3>
             <div class="form-outline mb-4">
               <label class="form-label" for="form2Example18">Librarian ID</label>
-              <input type="text" id="librarianID" runat="server" class="form-control form-control-lg" required/>
+              <input type="number" id="librarianID" runat="server" class="form-control form-control-lg" required/>
                  <asp:Label ID="validLibrarianID" runat="server" ForeColor="Red" />
             </div>
             <div class="form-outline mb-4">

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="Net_project.login" %>
+﻿﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="Net_project.login" %>
 
 <!DOCTYPE html>
 
@@ -22,12 +22,14 @@
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
             <div class="form-outline mb-4">
               <label class="form-label" for="form2Example18">Librarian ID</label>
-              <input type="text" id="LibrarianID" runat="server" class="form-control form-control-lg" />
+              <input type="text" id="librarianID" runat="server" class="form-control form-control-lg" />
+                <asp:Label ID="validLibrarianID" runat="server" ForeColor="Red" />
             </div>
 
             <div class="form-outline mb-4">
               <label class="form-label" for="form2Example28">Password</label>
               <input type="password" id="password" runat="server" class="form-control form-control-lg" />
+                <asp:Label ID="validPassword" runat="server" ForeColor="Red" />
             </div>
 
             <div class="pt-1 mb-4">

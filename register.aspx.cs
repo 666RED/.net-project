@@ -23,37 +23,42 @@ namespace Net_project
             SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog = TestDatabase; Trusted_Connection = true; Pooling = False");
             try
             {
-                String command = "SELECT * From librarian WHERE email = @email OR telephone = @telephone";
-                SqlDataAdapter cmdCheck = new SqlDataAdapter;
+                validLibrarianID.Text = "";
+                validEmail.Text = "";
+                validTelephone.Text = "";
+                String command = "SELECT * FROM librarian WHERE librarianId LIKE @librarianId OR email = @email OR telephone = @telephone";
+                SqlDataAdapter cmdCheck = new SqlDataAdapter();
                 cmdCheck.InsertCommand = new SqlCommand(command, con);
+                con.Open();
 
+                cmdCheck.InsertCommand.Parameters.Add("@librarianId", SqlDbType.NText).Value = librarianID.Value;
                 cmdCheck.InsertCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Value;
                 cmdCheck.InsertCommand.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone.Value;
-                con.Open();
                 SqlDataReader reader = cmdCheck.InsertCommand.ExecuteReader();
                 if (reader.Read())
                 {
-                    if (reader[0].Equals(librarianID))
+                    if (((String)reader[0]) == librarianID.Value)
                     {
                         validLibrarianID.Text = "Librarian already exist";
                         return;
                     }
-                    else if (reader[5].Equals(telephone.Value))
-                    {
-                        validTelephone.Text = "Telephone already exist!";
-                        return;
-                    }
-                    else if (reader[2].Equals(email.Value))
+                    else if (((String)reader[2]).Equals(email.Value))
                     {
                         validEmail.Text = "Email already exist!";
                         return;
                     }
+                    else if (((String)reader[5]).Equals(telephone.Value))
+                    {
+                        validTelephone.Text = "Telephone already exist!";
+                        return;
+                    }
                 }
+                reader.Close();
     
                 SqlDataAdapter cmd = new SqlDataAdapter();
-                cmd.InsertCommand = new SqlCommand("INSERT INTO librarian VALUES(@librarainId, @password, @email, @username, @gender, @telephone) ", con);
+                cmd.InsertCommand = new SqlCommand("INSERT INTO librarian VALUES(@librarianId, @password, @email, @username, @gender, @telephone) ", con);
 
-                cmd.InsertCommand.Parameters.Add("@librarainId", SqlDbType.NText).Value = librarianID.Value;
+                cmd.InsertCommand.Parameters.Add("@librarianId", SqlDbType.NText).Value = librarianID.Value;
                 cmd.InsertCommand.Parameters.Add("@password", SqlDbType.VarChar).Value = password.Value;
                 cmd.InsertCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Value;
                 cmd.InsertCommand.Parameters.Add("@username", SqlDbType.VarChar).Value = username.Value;
@@ -61,6 +66,9 @@ namespace Net_project
                 cmd.InsertCommand.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone.Value;
 
                 cmd.InsertCommand.ExecuteNonQuery();
+
+                string script = "alert('Registration successful!'); setTimeout(function(){window.location.href='login.aspx'}, 0);";
+                ScriptManager.RegisterStartupScript(this, GetType(), "RegistrationSuccess", script, true);
             }
             catch (Exception ex)
             {
@@ -69,9 +77,6 @@ namespace Net_project
             finally
             {
                 con.Close();
-                string script = "alert('Registration successful!');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "RegistrationSuccess", script, true);
-                Response.Redirect("login.aspx");
             }
         }
     }
