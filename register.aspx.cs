@@ -29,21 +29,27 @@ namespace Net_project
 
                 cmdCheck.InsertCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Value;
                 cmdCheck.InsertCommand.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone.Value;
+                con.Open();
                 SqlDataReader reader = cmdCheck.InsertCommand.ExecuteReader();
                 if (reader.Read())
                 {
-                    if (reader[0].Equals(email.Value))
+                    if (reader[0].Equals(librarianID))
                     {
-                        validEmail.Text = "Email already exist";
+                        validLibrarianID.Text = "Librarian already exist";
+                        return;
                     }
-                    else
+                    else if (reader[5].Equals(telephone.Value))
                     {
-                        validEmail.Text = "";
+                        validTelephone.Text = "Telephone already exist!";
+                        return;
+                    }
+                    else if (reader[2].Equals(email.Value))
+                    {
+                        validEmail.Text = "Email already exist!";
+                        return;
                     }
                 }
     
-
-                con.Open();
                 SqlDataAdapter cmd = new SqlDataAdapter();
                 cmd.InsertCommand = new SqlCommand("INSERT INTO librarian VALUES(@librarainId, @password, @email, @username, @gender, @telephone) ", con);
 
@@ -63,6 +69,9 @@ namespace Net_project
             finally
             {
                 con.Close();
+                string script = "alert('Registration successful!');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "RegistrationSuccess", script, true);
+                Response.Redirect("login.aspx");
             }
         }
     }

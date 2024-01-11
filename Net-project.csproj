@@ -80,7 +80,6 @@
     <Content Include="register.aspx" />
     <Content Include="Report.aspx" />
     <Content Include="Master Page\Styles\styles.css" />
-    <Content Include="testing.aspx" />
     <Content Include="ViewBook.aspx" />
     <Content Include="Web.config" />
     <Content Include="login.aspx" />
@@ -138,13 +137,6 @@
     </Compile>
     <Compile Include="Report.aspx.designer.cs">
       <DependentUpon>Report.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="testing.aspx.cs">
-      <DependentUpon>testing.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="testing.aspx.designer.cs">
-      <DependentUpon>testing.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewBook.aspx.cs">
       <DependentUpon>ViewBook.aspx</DependentUpon>
