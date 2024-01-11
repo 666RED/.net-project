@@ -77,10 +77,12 @@
     <Content Include="Images\logo.png" />
     <Content Include="ManageBook.aspx" />
     <Content Include="Images\system_logo.png" />
+    <Content Include="register.aspx" />
     <Content Include="Report.aspx" />
     <Content Include="Master Page\Styles\styles.css" />
     <Content Include="ViewBook.aspx" />
     <Content Include="Web.config" />
+    <Content Include="login.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BorrowBook.aspx.cs">
@@ -122,6 +124,13 @@
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="register.aspx.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="register.aspx.designer.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Report.aspx.cs">
       <DependentUpon>Report.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -135,6 +144,13 @@
     </Compile>
     <Compile Include="ViewBook.aspx.designer.cs">
       <DependentUpon>ViewBook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
