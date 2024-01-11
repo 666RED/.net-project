@@ -11,7 +11,7 @@ namespace Net_project
 {
 
 
-    public partial class WebForm1
+    public partial class testing
     {
 
         /// <summary>
