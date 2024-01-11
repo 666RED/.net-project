@@ -45,7 +45,7 @@ namespace Net_project
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability ASC) AS RowNum, * FROM Book) AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
+                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book) AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
@@ -77,7 +77,7 @@ namespace Net_project
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = $@"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE '%{searchString}%') AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
+                string query = $@"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE '%{searchString}%') AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {

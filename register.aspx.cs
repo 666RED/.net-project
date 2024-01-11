@@ -24,7 +24,7 @@ namespace Net_project
             try
             {
                 String command = "SELECT * From librarian WHERE email = @email OR telephone = @telephone";
-                SqlDataAdapter cmdCheck = new SqlDataAdapter;
+                SqlDataAdapter cmdCheck = new SqlDataAdapter();
                 cmdCheck.InsertCommand = new SqlCommand(command, con);
 
                 cmdCheck.InsertCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Value;

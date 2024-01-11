@@ -75,7 +75,6 @@
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo.png" />
-    <Content Include="login.aspx" />
     <Content Include="ManageBook.aspx" />
     <Content Include="Images\system_logo.png" />
     <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
@@ -157,6 +156,7 @@
     <Content Include="register.aspx" />
     <Content Include="Report.aspx" />
     <Content Include="Master Page\Styles\styles.css" />
+    <Content Include="ReturnBook.aspx" />
     <Content Include="testing.aspx" />
     <Content Include="ViewBook.aspx" />
     <Content Include="Web.config" />
@@ -186,12 +186,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="login.aspx.cs">
-      <DependentUpon>login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="login.aspx.designer.cs">
-      <DependentUpon>login.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ManageBook.aspx.cs">
       <DependentUpon>ManageBook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -220,6 +214,13 @@
     </Compile>
     <Compile Include="Report.aspx.designer.cs">
       <DependentUpon>Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReturnBook.aspx.cs">
+      <DependentUpon>ReturnBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReturnBook.aspx.designer.cs">
+      <DependentUpon>ReturnBook.aspx</DependentUpon>
     </Compile>
     <Compile Include="testing.aspx.cs">
       <DependentUpon>testing.aspx</DependentUpon>

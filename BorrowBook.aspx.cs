@@ -69,10 +69,7 @@ namespace Net_project
                 Response.Write(ex.ToString());
             }
         }
-        protected void SubmitButton_Click(object sender, EventArgs e)
-        {
-            // Your server-side code for handling the button click event
-        }
+
 
         [WebMethod]
         public static string RetrieveBorrowerInformation()
@@ -184,7 +181,6 @@ namespace Net_project
                 {
                     con.Open();
                     SqlCommand cmdInsert = new SqlCommand(addNewBorrowerQuery, con);
-                    cmdInsert.ExecuteNonQuery();
                     newBorrowerId = (int)cmdInsert.ExecuteScalar();
                 }
 
