@@ -5,7 +5,11 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mb-3">
-        <h1>View Book</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>View Book</h1>
+            <p class="text-primary p-0 m-0 align-self-end" onclick="viewHistory()" style="cursor: pointer;">Borrow History</p>
+        </div>
+
         <form class="border-secondary rounded-3 border p-3 mt-3">
             <div class="container">
                 <div class="row">
@@ -79,6 +83,13 @@
                         return false;
                     }
                 }
+            }
+
+            const viewHistory = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+
+                window.location.href = `ViewBorrowHistory.aspx?id=${id}`;
             }
         </script>
     </div>

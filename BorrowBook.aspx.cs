@@ -76,7 +76,7 @@ namespace Net_project
         {
             try
             {
-                string query = "SELECT borrowerId, borrowerName FROM Borrower";
+                string query = "SELECT borrowerId, borrowerName FROM Borrower ORDER BY borrowerName";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
@@ -94,7 +94,7 @@ namespace Net_project
             }
             catch (Exception ex)
             {
-                return string.Empty;
+                return "Error: " + ex.Message;
             }
         }
 
@@ -131,7 +131,7 @@ namespace Net_project
             }
             catch (Exception ex)
             {
-                // Handle exceptions
+                // handle exception
             }
 
             return string.Empty;
@@ -142,7 +142,7 @@ namespace Net_project
         {
             try
             {
-                string insertBorrowerBookQuery = $"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate) VALUES ({borrowerId}, {bookId}, '{borrowDate}', '{returnDate}')";
+                string insertBorrowerBookQuery = $"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate, returnStatus) VALUES ({borrowerId}, {bookId}, '{borrowDate}', '{returnDate}', 0)";
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
                     con.Open();
@@ -192,7 +192,7 @@ namespace Net_project
                     cmdUpdate.ExecuteNonQuery();
                 }
 
-                string insertBorrowerBookQuery = $"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate) VALUES ({newBorrowerId}, {bookId}, '{borrowDate}', '{returnDate}')";
+                string insertBorrowerBookQuery = $"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate, returnStatus) VALUES ({newBorrowerId}, {bookId}, '{borrowDate}', '{returnDate}', 0)";
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
                     con.Open();

@@ -14,7 +14,6 @@ namespace Net_project
         {
             if (!IsPostBack)
             {
-                // Retrieve the id from the query string
                 string idParam = Request.QueryString["id"];
 
                 if (!string.IsNullOrEmpty(idParam))

@@ -26,6 +26,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="Default.aspx">Home</a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="ManageBorrower.aspx">Manage Borrower</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="ManageBook.aspx">Manage Book</a>
                     </li>

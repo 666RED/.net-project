@@ -11,17 +11,17 @@ namespace Net_project
 {
 
 
-    public partial class Default
+    public partial class ViewBorrower
     {
 
         /// <summary>
-        /// BookTable control.
+        /// BorrowerTable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater BookTable;
+        protected global::System.Web.UI.WebControls.Repeater BorrowerTable;
 
         /// <summary>
         /// PageContainer control.

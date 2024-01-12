@@ -13,19 +13,19 @@ namespace Net_project
 {
     public partial class ReturnBook : System.Web.UI.Page
     {
+        public static int historyId;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 string bookIdString = Request.QueryString["id"];
                 int bookId = Convert.ToInt32(bookIdString);
                 RetrieveBorrowRecord(bookId);
             }
         }
+
         public void RetrieveBorrowRecord(int bookId)
         {
-
-
             string bookQuery = $"SELECT bookTitle FROM Book WHERE bookId = {bookId}";
 
             using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
@@ -45,11 +45,79 @@ namespace Net_project
                 }
             }
 
-            string borrowerQuery = $"SELECT b.BorrowerName, bb.borrowDate, bb.returnDate FROM Borrower b JOIN Borrower_Book bb ON b.borrowerId = bb.borrowerId WHERE bb.bookId = {bookId}";
+            string borrowerQuery = $"SELECT TOP 1 b.borrowerName, bb.borrower_bookId, bb.borrowDate, bb.returnDate FROM Borrower b JOIN Borrower_Book bb ON b.borrowerId = bb.borrowerId WHERE bb.bookId = {bookId} ORDER BY borrower_bookId DESC";
 
             using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
             {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(borrowerQuery, con);
 
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    historyId = Convert.ToInt32(reader["borrower_bookId"]);
+                    name.Value = reader["borrowerName"].ToString();
+                    if (DateTime.TryParse(reader["borrowDate"].ToString(), out DateTime borrowDateTime))
+                    {
+                        borrowDate.Value = borrowDateTime.ToString("yyyy-MM-dd");
+                    }
+                    else
+                    {
+                        borrowDate.Value = "Invalid Date";
+                    }
+
+                    if (DateTime.TryParse(reader["returnDate"].ToString(), out DateTime returnDateTime))
+                    {
+                        returnDate.Value = returnDateTime.ToString("yyyy-MM-dd");
+                        if (returnDateTime < DateTime.Now)
+                        {
+                            lateReturn.Style["display"] = "";
+                        }
+                    }
+                    else
+                    {
+                        returnDate.Value = "Invalid Date";
+                    }
+                }
+                else
+                {
+                    Response.Redirect("Error.aspx");
+                }
+            }
+        }
+
+        [WebMethod]
+        public static string UpdateBookAvailability(string bookIdString)
+        {
+            try
+            {
+                int bookId = Convert.ToInt32(bookIdString);
+
+                string query = $"UPDATE Book SET bookAvailability = 1 WHERE bookId = {bookId}";
+
+                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                {
+                    con.Open();
+                    SqlCommand cmdInsert = new SqlCommand(query, con);
+                    cmdInsert.ExecuteNonQuery();
+                }
+
+                query = $"UPDATE Borrower_Book SET returnDate = GETDATE(), returnStatus = 1 WHERE borrower_bookId = {historyId}";
+
+                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                {
+                    con.Open();
+                    SqlCommand cmdInsert = new SqlCommand(query, con);
+                    cmdInsert.ExecuteNonQuery();
+                }
+
+                return "Success";
+
+            }
+            catch (Exception ex)
+            {
+                return "Error: " + ex.Message;
             }
         }
     }

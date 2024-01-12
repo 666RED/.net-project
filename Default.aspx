@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-start mt-4">
             <div class="d-flex align-items-center col-4 justify-content-between">
                 <div class="d-flex align-items-center border border-secondary rounded-2 p-0 pe-2 search-container col-8" onclick="focusInput()" runat="server">
-                    <input type="text" id="search" class="form-control search-input w-100 px-2" maxlength="70" autocomplete="off" placeholder="Book title"/ onkeypress="return handlePress(event)">
+                    <input type="text" id="search" class="form-control search-input w-100 px-2" maxlength="70" autocomplete="off" placeholder="Book title" onkeypress="return handlePress(event)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
@@ -27,7 +27,7 @@
                     <th scope="col" class="col-5">Book title</th>
                     <th scope="col" class="col-2 text-center">Rack number</th>
                     <th scope="col" class="col-2 text-center">Status</th>
-                    <th scope="col" class="col-2 text-center">operation</th>
+                    <th scope="col" class="col-2 text-center">Operation</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +53,6 @@
         <div runat="server" id="PageContainer" class="d-flex align-items-center justify-content-center border border-secondary py-1">
             
         </div>
-        <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
     </div>
     <script>
         const focusInput = () => {

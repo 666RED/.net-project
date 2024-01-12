@@ -159,6 +159,9 @@
     <Content Include="ReturnBook.aspx" />
     <Content Include="testing.aspx" />
     <Content Include="ViewBook.aspx" />
+    <Content Include="ManageBorrower.aspx" />
+    <Content Include="ViewBorrower.aspx" />
+    <Content Include="ViewBorrowHistory.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +238,27 @@
     </Compile>
     <Compile Include="ViewBook.aspx.designer.cs">
       <DependentUpon>ViewBook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageBorrower.aspx.cs">
+      <DependentUpon>ManageBorrower.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageBorrower.aspx.designer.cs">
+      <DependentUpon>ManageBorrower.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewBorrower.aspx.cs">
+      <DependentUpon>ViewBorrower.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewBorrower.aspx.designer.cs">
+      <DependentUpon>ViewBorrower.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewBorrowHistory.aspx.cs">
+      <DependentUpon>ViewBorrowHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewBorrowHistory.aspx.designer.cs">
+      <DependentUpon>ViewBorrowHistory.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

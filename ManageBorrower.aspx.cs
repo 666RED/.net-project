@@ -1,11 +1,15 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-using System;
 
 namespace Net_project
 {
-    public partial class Default : System.Web.UI.Page
+    public partial class ViewBorrower : System.Web.UI.Page
     {
         private int currentPage = 1; // Default to the first page
         private String searchString = "";
@@ -15,12 +19,14 @@ namespace Net_project
 
             if (!IsPostBack)
             {
+                updateFineStatus();
                 if (Request.QueryString["page"] != null)
                 {
                     currentPage = int.Parse(Request.QueryString["page"]);
                 }
 
-                if (Request.QueryString["value"] != null) {
+                if (Request.QueryString["value"] != null)
+                {
                     if (Request.QueryString["page"] == null)
                     {
                         currentPage = 1;
@@ -40,12 +46,12 @@ namespace Net_project
         {
             try
             {
-                
+
                 int pageSize = 8;
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book) AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
+                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY borrowerFineStatus DESC, borrowerName ASC) AS RowNum, * FROM Borrower) AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
@@ -58,8 +64,8 @@ namespace Net_project
 
                     if (dt.Rows.Count > 0)
                     {
-                        BookTable.DataSource = dt;
-                        BookTable.DataBind();
+                        BorrowerTable.DataSource = dt;
+                        BorrowerTable.DataBind();
                     }
                 }
             }
@@ -77,7 +83,7 @@ namespace Net_project
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = $@"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE '%{searchString}%') AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
+                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY borrowerFineStatus DESC, borrowerName ASC) AS RowNum, * FROM Borrower WHERE borrowerName LIKE '%{searchString}%') AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
@@ -90,8 +96,8 @@ namespace Net_project
 
                     if (dt.Rows.Count > 0)
                     {
-                        BookTable.DataSource = dt;
-                        BookTable.DataBind();
+                        BorrowerTable.DataSource = dt;
+                        BorrowerTable.DataBind();
                     }
                 }
             }
@@ -108,11 +114,11 @@ namespace Net_project
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
                     con.Open();
-                    string query = "SELECT COUNT(*) FROM Book";
+                    string query = "SELECT COUNT(*) FROM Borrower";
                     SqlCommand cmd = new SqlCommand(query, con);
-                    int totalBooks = (int)cmd.ExecuteScalar();
+                    int totalBorrowers = (int)cmd.ExecuteScalar();
 
-                    int numberOfPages = (int)Math.Ceiling((double)totalBooks / 8);
+                    int numberOfPages = (int)Math.Ceiling((double)totalBorrowers / 8);
 
                     for (int i = 1; i <= numberOfPages; i++)
                     {
@@ -133,18 +139,18 @@ namespace Net_project
             }
         }
 
-       public void GenerateSearchPage()
+        public void GenerateSearchPage()
         {
             try
             {
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
                     con.Open();
-                    string query = $"SELECT COUNT(*) FROM Book WHERE bookTitle LIKE '%{searchString}%'";
+                    string query = $"SELECT COUNT(*) FROM Borrower WHERE borrowerName LIKE '%{searchString}%'";
                     SqlCommand cmd = new SqlCommand(query, con);
-                    int totalBooks = (int)cmd.ExecuteScalar();
+                    int totalBorrowers = (int)cmd.ExecuteScalar();
 
-                    int numberOfPages = (int)Math.Ceiling((double)totalBooks / 8);
+                    int numberOfPages = (int)Math.Ceiling((double)totalBorrowers / 8);
 
                     for (int i = 1; i <= numberOfPages; i++)
                     {
@@ -170,7 +176,24 @@ namespace Net_project
             return index + (currentPage - 1) * 8;
         }
 
+        public void updateFineStatus()
+        {
+            try
+            {
+                string query = $"UPDATE Borrower SET borrowerFineStatus = 1 FROM Borrower b INNER JOIN Borrower_Book bb ON b.borrowerId = bb.borrowerId WHERE bb.returnDate < GETDATE()";
+
+
+                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                {
+                    con.Open();
+                    SqlCommand cmdInsert = new SqlCommand(query, con);
+                    cmdInsert.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.ToString());
+            }
+        }
     }
 }
-
-
