@@ -90,15 +90,15 @@
             const pageFromUrl = urlParams.get('page');
             if (!valueFromUrl) {
                 if (pageFromUrl) {
-                    window.location.href = `ViewBook.aspx?id=${id}&page=${pageFromUrl}`;
+                    window.location.href = `ViewBook.aspx?id=${id}&page=${pageFromUrl}&dest=Default.aspx`;
                 } else {
-                    window.location.href = `ViewBook.aspx?id=${id}`;
+                    window.location.href = `ViewBook.aspx?id=${id}&dest=Default.aspx`;
                 }
             } else {
                 if (pageFromUrl) {
-                    window.location.href = `ViewBook.aspx?id=${id}&value=${valueFromUrl}&page=${pageFromUrl}`;
+                    window.location.href = `ViewBook.aspx?id=${id}&value=${valueFromUrl}&page=${pageFromUrl}&dest=Default.aspx`;
                 } else {
-                    window.location.href = `ViewBook.aspx?id=${id}&value=${valueFromUrl}`;
+                    window.location.href = `ViewBook.aspx?id=${id}&value=${valueFromUrl}&dest=Default.aspx`;
                 }
             }
         }

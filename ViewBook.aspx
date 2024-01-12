@@ -66,20 +66,21 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const value = urlParams.get('value');
                 const page = urlParams.get('page');
+                const destination = urlParams.get('dest');
                 if (!value) {
                     if (page) {
-                        window.location.href = `Default.aspx?page=${page}`;
+                        window.location.href = `${destination}?page=${page}`;
                         return false;
                     } else {
-                        window.location.href = `Default.aspx`;
+                        window.location.href = `${destination}`;
                         return false;
                     }
                 } else {
                     if (page) {
-                        window.location.href = `Default.aspx?value=${value}&page=${page}`;
+                        window.location.href = `${destination}?value=${value}&page=${page}`;
                         return false;
                     } else {
-                        window.location.href = `Default.aspx?value=${value}`;
+                        window.location.href = `${destination}?value=${value}`;
                         return false;
                     }
                 }

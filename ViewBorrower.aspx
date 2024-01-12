@@ -79,7 +79,10 @@
             }
 
             const viewHistory = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
 
+                window.location.href = `BorrowHistory.aspx?id=${id}`;
             }
         </script>
     </div>

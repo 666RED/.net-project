@@ -70,8 +70,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddNewBook.aspx" />
     <Content Include="BorrowBook.aspx" />
+    <Content Include="BorrowHistory.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="EditBook.aspx" />
     <Content Include="EditBorrower.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
@@ -166,6 +169,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddNewBook.aspx.cs">
+      <DependentUpon>AddNewBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddNewBook.aspx.designer.cs">
+      <DependentUpon>AddNewBook.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BorrowBook.aspx.cs">
       <DependentUpon>BorrowBook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -173,12 +183,26 @@
     <Compile Include="BorrowBook.aspx.designer.cs">
       <DependentUpon>BorrowBook.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BorrowHistory.aspx.cs">
+      <DependentUpon>BorrowHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BorrowHistory.aspx.designer.cs">
+      <DependentUpon>BorrowHistory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditBook.aspx.cs">
+      <DependentUpon>EditBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditBook.aspx.designer.cs">
+      <DependentUpon>EditBook.aspx</DependentUpon>
     </Compile>
     <Compile Include="EditBorrower.aspx.cs">
       <DependentUpon>EditBorrower.aspx</DependentUpon>
