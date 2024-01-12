@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Services;
+using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace Net_project
 {
@@ -19,7 +22,7 @@ namespace Net_project
 
             if (!IsPostBack)
             {
-                updateFineStatus();
+                UpdateFineStatus();
                 if (Request.QueryString["page"] != null)
                 {
                     currentPage = int.Parse(Request.QueryString["page"]);
@@ -176,11 +179,11 @@ namespace Net_project
             return index + (currentPage - 1) * 8;
         }
 
-        public void updateFineStatus()
+        public void UpdateFineStatus()
         {
             try
             {
-                string query = $"UPDATE Borrower SET borrowerFineStatus = 1 FROM Borrower b INNER JOIN Borrower_Book bb ON b.borrowerId = bb.borrowerId WHERE bb.returnDate < GETDATE()";
+                string query = $"UPDATE Borrower SET borrowerFineStatus = 1 FROM Borrower b INNER JOIN Borrower_Book bb ON b.borrowerId = bb.borrowerId WHERE bb.returnStatus = 0 AND bb.returnDate < GETDATE()";
 
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))

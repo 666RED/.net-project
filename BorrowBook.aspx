@@ -9,7 +9,6 @@
         <h1>Borrow Book</h1>
         <form class="border-secondary rounded-3 border p-3 mt-3" onsubmit="return handleSubmit()">
             <div class="container">
-                <div class="container">
                     <div class="row mt-3">
                         <label class="form-label col-12 p-0">Book Title:</label>
                         <input type="text" readonly class="form-control border border-secondary col-12" id="title" runat="server"/>
@@ -66,7 +65,6 @@
                     </div>
                     <button class="btn btn-success d-block mx-auto mt-5 w-25" runat="server" type="submit">Submit</button>
                 <div/>
-            </div>
             </div>
         </form>
 

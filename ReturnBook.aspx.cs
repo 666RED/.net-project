@@ -94,26 +94,35 @@ namespace Net_project
             {
                 int bookId = Convert.ToInt32(bookIdString);
 
-                string query = $"UPDATE Book SET bookAvailability = 1 WHERE bookId = {bookId}";
+                string bookQuery = $"UPDATE Book SET bookAvailability = 1 WHERE bookId = {bookId}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
                     con.Open();
-                    SqlCommand cmdInsert = new SqlCommand(query, con);
+                    SqlCommand cmdInsert = new SqlCommand(bookQuery, con);
                     cmdInsert.ExecuteNonQuery();
                 }
 
-                query = $"UPDATE Borrower_Book SET returnDate = GETDATE(), returnStatus = 1 WHERE borrower_bookId = {historyId}";
+                string borrowerBookQuery = $"UPDATE Borrower_Book SET returnDate = GETDATE(), returnStatus = 1 WHERE borrower_bookId = {historyId}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
                     con.Open();
-                    SqlCommand cmdInsert = new SqlCommand(query, con);
+                    SqlCommand cmdInsert = new SqlCommand(borrowerBookQuery, con);
                     cmdInsert.ExecuteNonQuery();
                 }
 
-                return "Success";
+                string updateQuery = $"UPDATE Borrower SET borrowerFineStatus = CASE WHEN (SELECT COUNT(*) FROM Borrower_Book WHERE borrowerId = (SELECT borrowerId FROM Borrower_Book WHERE borrower_bookId = {historyId}) AND returnStatus = 0 AND returnDate < GETDATE()) > 0 THEN 1 ELSE 0 END WHERE borrowerId = (SELECT borrowerId FROM Borrower_Book WHERE borrower_bookId = {historyId})";
 
+                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand(updateQuery, con);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+
+                    return "Success";
+                }
             }
             catch (Exception ex)
             {

@@ -27,7 +27,7 @@
                     <th scope="col" class="col-5">Borrower Name</th>
                     <th scope="col" class="col-2 text-center">Phone Number</th>
                     <th scope="col" class="col-2 text-center">Fine Status</th>
-                    <th scope="col" class="col-2 text-center">operation</th>
+                    <th scope="col" class="col-2 text-center">Operation</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@
                             <td class="text-center <%# Convert.ToInt32(Eval("borrowerFineStatus")) == 0 ? "" : "text-danger" %>"><%# Convert.ToInt32(Eval("borrowerFineStatus")) == 1 ? "Fined" : "Clear" %></td>
                             <td class="d-flex align-items-center justify-content-around">
                                 <button class="btn btn-primary op-btn" onclick='<%# "viewBorrower(" + Eval("borrowerId") + ")" %>'>View</button>
-                                <button class="btn btn-primary op-btn" onclick='<%# "viewBorrower(" + Eval("borrowerId") + ")" %>'>Edit</button>
+                                <button class="btn btn-success op-btn px-3" onclick='<%# "editBorrower(" + Eval("borrowerId") + ")" %>'>Edit</button>
                             </td>
                         </tr>
                     </ItemTemplate>
@@ -50,6 +50,7 @@
         <div runat="server" id="PageContainer" class="d-flex align-items-center justify-content-center border border-secondary py-1">
         </div>
 
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
             const focusInput = () => {
                 const searchInput = document.getElementById("search");
@@ -100,7 +101,7 @@
             }
 
             const editBorrower = (id) => {
-                window.location.href = `ViewBorrower.aspx?id=${id}`;
+                window.location.href = `EditBorrower.aspx?id=${id}`;
             }
 
         </script>

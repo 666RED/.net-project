@@ -72,6 +72,7 @@
   <ItemGroup>
     <Content Include="BorrowBook.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="EditBorrower.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo.png" />
@@ -178,6 +179,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditBorrower.aspx.cs">
+      <DependentUpon>EditBorrower.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditBorrower.aspx.designer.cs">
+      <DependentUpon>EditBorrower.aspx</DependentUpon>
     </Compile>
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>

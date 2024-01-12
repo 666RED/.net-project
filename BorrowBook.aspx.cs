@@ -131,7 +131,7 @@ namespace Net_project
             }
             catch (Exception ex)
             {
-                // handle exception
+                return "Error: " + ex.Message;
             }
 
             return string.Empty;
