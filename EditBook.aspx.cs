@@ -79,15 +79,27 @@ namespace Net_project
                 string bookLanguage = language;
                 double bookPrice = Convert.ToDouble(price);
                 string bookRackNumber = rackNumber;
-                Boolean bookAvailability = Convert.ToBoolean(availability);
+                bool bookAvailability = Convert.ToBoolean(availability);
 
-                string query = $"UPDATE Book SET bookTitle = '{bookTitle}', bookAuthor = '{bookAuthor}', bookPages = {bookPages}, bookISBN = '{bookISBN}', bookPublisher = '{bookPublisher}', bookPublicationDate = '{bookPublicationDate}', bookLanguage = '{bookLanguage}', bookPrice = {bookPrice}, bookRackNumber = '{bookRackNumber}', bookAvailability = '{bookAvailability}' WHERE bookId = {bookId}";
+                string query = @"UPDATE Book SET bookTitle = @BookTitle, bookAuthor = @BookAuthor, bookPages = @BookPages, bookISBN = @BookISBN, bookPublisher = @BookPublisher, bookPublicationDate = @BookPublicationDate, bookLanguage = @BookLanguage, bookPrice = @BookPrice, bookRackNumber = @BookRackNumber, bookAvailability = @BookAvailability WHERE bookId = @BookId";
 
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 
                     SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
+                    cmd.Parameters.AddWithValue("@BookAuthor", bookAuthor);
+                    cmd.Parameters.AddWithValue("@BookPages", bookPages);
+                    cmd.Parameters.AddWithValue("@BookISBN", bookISBN);
+                    cmd.Parameters.AddWithValue("@BookPublisher", bookPublisher);
+                    cmd.Parameters.AddWithValue("@BookPublicationDate", bookPublicationDate);
+                    cmd.Parameters.AddWithValue("@BookLanguage", bookLanguage);
+                    cmd.Parameters.AddWithValue("@BookPrice", bookPrice);
+                    cmd.Parameters.AddWithValue("@BookRackNumber", bookRackNumber);
+                    cmd.Parameters.AddWithValue("@BookAvailability", bookAvailability);
+                    cmd.Parameters.AddWithValue("@BookId", bookId);
+
                     int result = cmd.ExecuteNonQuery();
 
                     return result.ToString();
@@ -97,6 +109,7 @@ namespace Net_project
             {
                 return "Error: " + ex.Message;
             }
+
         }
     }
 }

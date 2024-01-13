@@ -70,27 +70,37 @@ namespace Net_project
                 string borrowerName = name;
                 int borrowerAge = Convert.ToInt32(age);
                 string borrowerGender = gender;
-                Boolean borrowerFineStatus = Convert.ToBoolean(fineStatus);
+                bool borrowerFineStatus = Convert.ToBoolean(fineStatus);
                 string borrowerEmailAddress = emailAddress;
                 string borrowerPhoneNumber = phoneNumber;
                 string borrowerAddress = address;
 
-                string query = $"UPDATE Borrower SET borrowerName = '{borrowerName}', borrowerAge = {borrowerAge}, borrowerGender = '{borrowerGender}', borrowerFineStatus = '{borrowerFineStatus}', borrowerEmailAddress = '{borrowerEmailAddress}', borrowerPhoneNumber = '{borrowerPhoneNumber}', borrowerAddress = '{borrowerAddress}' WHERE borrowerId = {borrowerId}";
+                string query = @"UPDATE Borrower SET borrowerName = @BorrowerName, borrowerAge = @BorrowerAge, borrowerGender = @BorrowerGender, borrowerFineStatus = @BorrowerFineStatus, borrowerEmailAddress = @BorrowerEmailAddress, borrowerPhoneNumber = @BorrowerPhoneNumber, borrowerAddress = @BorrowerAddress WHERE borrowerId = @BorrowerId";
 
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 
                     SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@BorrowerName", borrowerName);
+                    cmd.Parameters.AddWithValue("@BorrowerAge", borrowerAge);
+                    cmd.Parameters.AddWithValue("@BorrowerGender", borrowerGender);
+                    cmd.Parameters.AddWithValue("@BorrowerFineStatus", borrowerFineStatus);
+                    cmd.Parameters.AddWithValue("@BorrowerEmailAddress", borrowerEmailAddress);
+                    cmd.Parameters.AddWithValue("@BorrowerPhoneNumber", borrowerPhoneNumber);
+                    cmd.Parameters.AddWithValue("@BorrowerAddress", borrowerAddress);
+                    cmd.Parameters.AddWithValue("@BorrowerId", borrowerId);
+
                     int result = cmd.ExecuteNonQuery();
 
-                    return result.ToString();    
+                    return result.ToString();
                 }
             }
             catch (Exception ex)
             {
                 return "Error: " + ex.Message;
             }
+
         }
     }
 }

@@ -20,7 +20,8 @@ namespace Net_project
                     currentPage = int.Parse(Request.QueryString["page"]);
                 }
 
-                if (Request.QueryString["value"] != null) {
+                if (Request.QueryString["value"] != null)
+                {
                     if (Request.QueryString["page"] == null)
                     {
                         currentPage = 1;
@@ -40,7 +41,7 @@ namespace Net_project
         {
             try
             {
-                
+
                 int pageSize = 8;
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
@@ -77,21 +78,29 @@ namespace Net_project
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = $@"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE '%{searchString}%' AND deleted = 0) AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
+                string query = @"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE '%' + @SearchString + '%' AND deleted = 0) AS RowConstrainedResult WHERE RowNum BETWEEN @StartIndex AND @EndIndex";
 
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-
-                    if (dt.Rows.Count > 0)
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        BookTable.DataSource = dt;
-                        BookTable.DataBind();
+                        cmd.Parameters.AddWithValue("@SearchString", searchString);
+                        cmd.Parameters.AddWithValue("@StartIndex", startIndex);
+                        cmd.Parameters.AddWithValue("@EndIndex", endIndex);
+
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            if (dt.Rows.Count > 0)
+                            {
+                                BookTable.DataSource = dt;
+                                BookTable.DataBind();
+                            }
+                        }
                     }
                 }
             }
@@ -99,6 +108,7 @@ namespace Net_project
             {
                 Response.Write(ex.ToString());
             }
+
         }
 
         public void GeneratePage()
@@ -122,7 +132,7 @@ namespace Net_project
                         pageLabel.CssClass = "mx-2 border-0";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handlePageLabelClick({i});";
-                        if(i == currentPage)
+                        if (i == currentPage)
                         {
                             pageLabel.Style["text-decoration"] = "underline";
                         }
@@ -137,7 +147,7 @@ namespace Net_project
             }
         }
 
-       public void GenerateSearchPage()
+        public void GenerateSearchPage()
         {
             try
             {
@@ -180,5 +190,4 @@ namespace Net_project
 
     }
 }
-
 

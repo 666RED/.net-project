@@ -103,7 +103,8 @@ namespace Net_project
         {
             try
             {
-                string query = $"SELECT * FROM Borrower WHERE borrowerId = '{borrowerId}'";
+                int borrowerIdInt = Convert.ToInt32(borrowerId);
+                string query = $"SELECT * FROM Borrower WHERE borrowerId = {borrowerIdInt}";
 
                 using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
                 {
@@ -142,28 +143,41 @@ namespace Net_project
         {
             try
             {
-                string insertBorrowerBookQuery = $"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate, returnStatus) VALUES ({borrowerId}, {bookId}, '{borrowDate}', '{returnDate}', 0)";
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
-                    SqlCommand cmdInsert = new SqlCommand(insertBorrowerBookQuery, con);
-                    cmdInsert.ExecuteNonQuery();
-                }
 
-                string updateBookAvailabilityQuery = $"UPDATE Book SET bookAvailability = 0 WHERE bookId = {bookId}";
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
-                {
-                    con.Open();
-                    SqlCommand cmdUpdate = new SqlCommand(updateBookAvailabilityQuery, con);
-                    cmdUpdate.ExecuteNonQuery();
-                }
+                    // Insert into Borrower_Book
+                    string insertBorrowerBookQuery = "INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate, returnStatus) VALUES (@BorrowerId, @BookId, @BorrowDate, @ReturnDate, 0)";
+                    using (SqlCommand cmdInsert = new SqlCommand(insertBorrowerBookQuery, con))
+                    {
+                        // Add parameters to prevent SQL injection
+                        cmdInsert.Parameters.AddWithValue("@BorrowerId", borrowerId);
+                        cmdInsert.Parameters.AddWithValue("@BookId", bookId);
+                        cmdInsert.Parameters.AddWithValue("@BorrowDate", borrowDate);
+                        cmdInsert.Parameters.AddWithValue("@ReturnDate", returnDate);
 
-                return "Success";
+                        cmdInsert.ExecuteNonQuery();
+                    }
+
+                    // Update Book availability
+                    string updateBookAvailabilityQuery = "UPDATE Book SET bookAvailability = 0 WHERE bookId = @BookId";
+                    using (SqlCommand cmdUpdate = new SqlCommand(updateBookAvailabilityQuery, con))
+                    {
+                        // Add parameter to prevent SQL injection
+                        cmdUpdate.Parameters.AddWithValue("@BookId", bookId);
+
+                        cmdUpdate.ExecuteNonQuery();
+                    }
+
+                    return "Success";
+                }
             }
             catch (Exception ex)
             {
                 return "Error: " + ex.Message;
             }
+
         }
 
         [WebMethod]
@@ -175,39 +189,56 @@ namespace Net_project
                 int borrowerFineStatus = fineStatus.ToLower() == "true" ? 1 : 0;
                 int newBorrowerId;
 
-                string addNewBorrowerQuery = $"INSERT INTO Borrower (borrowerName, borrowerGender, borrowerAge, borrowerEmailAddress, borrowerPhoneNumber, borrowerAddress, borrowerFineStatus) OUTPUT INSERTED.borrowerId VALUES ('{name}', '{gender}', {borrowerAge}, '{email}', '{phoneNumber}', '{address}', {borrowerFineStatus})";
+                string addNewBorrowerQuery = @"INSERT INTO Borrower (borrowerName, borrowerGender, borrowerAge, borrowerEmailAddress, borrowerPhoneNumber, borrowerAddress, borrowerFineStatus) OUTPUT INSERTED.borrowerId VALUES (@Name, @Gender, @Age, @Email, @PhoneNumber, @Address, @FineStatus)";
 
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
-                    SqlCommand cmdInsert = new SqlCommand(addNewBorrowerQuery, con);
-                    newBorrowerId = (int)cmdInsert.ExecuteScalar();
-                }
 
-                string updateBookAvailabilityQuery = $"UPDATE Book SET bookAvailability = 0 WHERE bookId = {bookId}";
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
-                {
-                    con.Open();
-                    SqlCommand cmdUpdate = new SqlCommand(updateBookAvailabilityQuery, con);
-                    cmdUpdate.ExecuteNonQuery();
-                }
+                    using (SqlCommand cmdInsert = new SqlCommand(addNewBorrowerQuery, con))
+                    {
+                        // Add parameters to prevent SQL injection
+                        cmdInsert.Parameters.AddWithValue("@Name", name);
+                        cmdInsert.Parameters.AddWithValue("@Gender", gender);
+                        cmdInsert.Parameters.AddWithValue("@Age", borrowerAge);
+                        cmdInsert.Parameters.AddWithValue("@Email", email);
+                        cmdInsert.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                        cmdInsert.Parameters.AddWithValue("@Address", address);
+                        cmdInsert.Parameters.AddWithValue("@FineStatus", borrowerFineStatus);
 
-                string insertBorrowerBookQuery = $"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate, returnStatus) VALUES ({newBorrowerId}, {bookId}, '{borrowDate}', '{returnDate}', 0)";
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
-                {
-                    con.Open();
-                    SqlCommand cmdInsert = new SqlCommand(insertBorrowerBookQuery, con);
-                    cmdInsert.ExecuteNonQuery();
-                }
+                        newBorrowerId = (int)cmdInsert.ExecuteScalar();
+                    }
 
-                return "Success";
+                    string updateBookAvailabilityQuery = "UPDATE Book SET bookAvailability = 0 WHERE bookId = @BookId";
+                    using (SqlCommand cmdUpdate = new SqlCommand(updateBookAvailabilityQuery, con))
+                    {
+                        // Add parameter to prevent SQL injection
+                        cmdUpdate.Parameters.AddWithValue("@BookId", bookId);
+
+                        cmdUpdate.ExecuteNonQuery();
+                    }
+
+                    string insertBorrowerBookQuery = @"INSERT INTO Borrower_Book (borrowerId, bookId, borrowDate, returnDate, returnStatus) VALUES (@BorrowerId, @BookId, @BorrowDate, @ReturnDate, 0)";
+
+                    using (SqlCommand cmdInsert = new SqlCommand(insertBorrowerBookQuery, con))
+                    {
+                        // Add parameters to prevent SQL injection
+                        cmdInsert.Parameters.AddWithValue("@BorrowerId", newBorrowerId);
+                        cmdInsert.Parameters.AddWithValue("@BookId", bookId);
+                        cmdInsert.Parameters.AddWithValue("@BorrowDate", borrowDate);
+                        cmdInsert.Parameters.AddWithValue("@ReturnDate", returnDate);
+
+                        cmdInsert.ExecuteNonQuery();
+                    }
+
+                    return "Success";
+                }
             }
             catch (Exception ex)
             {
                 return "Error: " + ex.Message;
             }
+
         }
-
-
     }
 }

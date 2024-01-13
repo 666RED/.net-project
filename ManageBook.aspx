@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="container mb-3">
         <h1>Manage Book</h1>
         <div class="d-flex justify-content-between mt-4">
             <div class="d-flex align-items-center justify-content-between">

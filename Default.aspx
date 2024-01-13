@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master Page/MasterPage.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Net_project.Default" %>  
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master Page/MasterPage.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Net_project.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="title" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="container mb-3">
         <h1>Homepage</h1>
         <div class="d-flex justify-content-start mt-4">
             <div class="d-flex align-items-center col-4 justify-content-between">
@@ -43,7 +43,7 @@
                                 <%# Convert.ToInt32(Eval("bookAvailability")) == 1 
                                         ? $"<button class='btn btn-success op-btn' onclick='borrowBook({Eval("bookId")})'>Borrow</button>"
                                         : $"<button class='btn btn-warning op-btn' onclick='returnBook({Eval("bookId")})'>Return</button>"
-                                        %>
+                                %>
                             </td>
                         </tr>
                     </ItemTemplate>
@@ -51,7 +51,6 @@
             </tbody>
         </table>
         <div runat="server" id="PageContainer" class="d-flex align-items-center justify-content-center border border-secondary py-1">
-            
         </div>
     </div>
     <script>
@@ -114,4 +113,3 @@
     </script>
 
 </asp:Content>
-

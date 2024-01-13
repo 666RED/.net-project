@@ -86,13 +86,15 @@ namespace Net_project
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY borrowerFineStatus DESC, borrowerName ASC) AS RowNum, * FROM Borrower WHERE borrowerName LIKE '%{searchString}%') AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
+                string query = $"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY borrowerFineStatus DESC, borrowerName ASC) AS RowNum, * FROM Borrower WHERE borrowerName LIKE @SearchString) AS RowConstrainedResult WHERE RowNum BETWEEN {startIndex} AND {endIndex}";
 
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 
                     SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@SearchString", $"%{searchString}%");
+
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -108,13 +110,14 @@ namespace Net_project
             {
                 Response.Write(ex.ToString());
             }
+
         }
 
         public void GeneratePage()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
                     string query = "SELECT COUNT(*) FROM Borrower";
@@ -150,11 +153,12 @@ namespace Net_project
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
-                    string query = $"SELECT COUNT(*) FROM Borrower WHERE borrowerName LIKE '%{searchString}%'";
+                    string query = "SELECT COUNT(*) FROM Borrower WHERE borrowerName LIKE @SearchString";
                     SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@SearchString", "%" + searchString + "%");
                     int totalBorrowers = (int)cmd.ExecuteScalar();
 
                     int numberOfPages = (int)Math.Ceiling((double)totalBorrowers / 8);
@@ -180,6 +184,7 @@ namespace Net_project
             {
                 Response.Write(ex.ToString());
             }
+
         }
 
         protected int CalculateItemIndex(int index)

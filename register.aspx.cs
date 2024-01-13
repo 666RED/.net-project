@@ -13,41 +13,52 @@ namespace Net_project
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-             ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+            ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
         }
 
         protected void UserRegister(object sender, EventArgs e)
         {
-            
+
 
             SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog = TestDatabase; Trusted_Connection = true; Pooling = False");
             try
             {
+                validLibrarianID.Text = "";
+                validEmail.Text = "";
+                validTelephone.Text = "";
                 String command = "SELECT * From librarian WHERE email = @email OR telephone = @telephone";
                 SqlDataAdapter cmdCheck = new SqlDataAdapter();
                 cmdCheck.InsertCommand = new SqlCommand(command, con);
+                con.Open();
 
+                cmdCheck.InsertCommand.Parameters.Add("@librarianId", SqlDbType.NText).Value = librarianID.Value;
                 cmdCheck.InsertCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Value;
                 cmdCheck.InsertCommand.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone.Value;
                 SqlDataReader reader = cmdCheck.InsertCommand.ExecuteReader();
                 if (reader.Read())
                 {
-                    if (reader[0].Equals(email.Value))
+                    if (((String)reader[0]) == librarianID.Value)
                     {
-                        validEmail.Text = "Email already exist";
+                        validLibrarianID.Text = "Librarian already exist";
+                        return;
                     }
-                    else
+                    else if (((String)reader[2]).Equals(email.Value))
                     {
-                        validEmail.Text = "";
+                        validEmail.Text = "Email already exist!";
+                        return;
+                    }
+                    else if (((String)reader[5]).Equals(telephone.Value))
+                    {
+                        validTelephone.Text = "Telephone already exist!";
+                        return;
                     }
                 }
-    
+                reader.Close();
 
-                con.Open();
                 SqlDataAdapter cmd = new SqlDataAdapter();
-                cmd.InsertCommand = new SqlCommand("INSERT INTO librarian VALUES(@librarainId, @password, @email, @username, @gender, @telephone) ", con);
+                cmd.InsertCommand = new SqlCommand("INSERT INTO librarian VALUES(@librarianId, @password, @email, @username, @gender, @telephone) ", con);
 
-                cmd.InsertCommand.Parameters.Add("@librarainId", SqlDbType.NText).Value = librarianID.Value;
+                cmd.InsertCommand.Parameters.Add("@librarianId", SqlDbType.NText).Value = librarianID.Value;
                 cmd.InsertCommand.Parameters.Add("@password", SqlDbType.VarChar).Value = password.Value;
                 cmd.InsertCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email.Value;
                 cmd.InsertCommand.Parameters.Add("@username", SqlDbType.VarChar).Value = username.Value;
@@ -55,6 +66,9 @@ namespace Net_project
                 cmd.InsertCommand.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone.Value;
 
                 cmd.InsertCommand.ExecuteNonQuery();
+
+                string script = "alert('Registration successful!'); setTimeout(function(){window.location.href='login.aspx'}, 0);";
+                ScriptManager.RegisterStartupScript(this, GetType(), "RegistrationSuccess", script, true);
             }
             catch (Exception ex)
             {
