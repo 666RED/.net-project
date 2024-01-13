@@ -23,10 +23,14 @@ namespace Net_project
             SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog = TestDatabase; Trusted_Connection = true; Pooling = False");
             try
             {
+<<<<<<< HEAD
                 validLibrarianID.Text = "";
                 validEmail.Text = "";
                 validTelephone.Text = "";
                 String command = "SELECT * FROM librarian WHERE librarianId LIKE @librarianId OR email = @email OR telephone = @telephone";
+=======
+                String command = "SELECT * From librarian WHERE email = @email OR telephone = @telephone";
+>>>>>>> 5e453cd5e1185ee596a8930f6aa597473984d59c
                 SqlDataAdapter cmdCheck = new SqlDataAdapter();
                 cmdCheck.InsertCommand = new SqlCommand(command, con);
                 con.Open();
