@@ -131,6 +131,10 @@ namespace Net_project
                         pageLabel.CssClass = "mx-2 border-0 page-label";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handlePageLabelClick({i});";
+                        if (i == currentPage)
+                        {
+                            pageLabel.Style["text-decoration"] = "underline";
+                        }
 
                         PageContainer.Controls.Add(pageLabel);
                     }
@@ -163,6 +167,10 @@ namespace Net_project
                         pageLabel.CssClass = "mx-2 border-0 page-label";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handleSearchPageLabelClick({i}, '{searchString}');";
+                        if (i == currentPage)
+                        {
+                            pageLabel.Style["text-decoration"] = "underline";
+                        }
 
                         PageContainer.Controls.Add(pageLabel);
                     }

@@ -119,9 +119,13 @@ namespace Net_project
                         Label pageLabel = new Label();
                         pageLabel.ID = "PageLabel_" + i;
                         pageLabel.Text = i.ToString();
-                        pageLabel.CssClass = "mx-2 border-0 page-label";
+                        pageLabel.CssClass = "mx-2 border-0";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handlePageLabelClick({i});";
+                        if(i == currentPage)
+                        {
+                            pageLabel.Style["text-decoration"] = "underline";
+                        }
 
                         PageContainer.Controls.Add(pageLabel);
                     }
@@ -151,9 +155,13 @@ namespace Net_project
                         Label pageLabel = new Label();
                         pageLabel.ID = "PageLabel_" + i;
                         pageLabel.Text = i.ToString();
-                        pageLabel.CssClass = "mx-2 border-0 page-label";
+                        pageLabel.CssClass = "mx-2 border-0";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handleSearchPageLabelClick({i}, '{searchString}');";
+                        if (i == currentPage)
+                        {
+                            pageLabel.Style["text-decoration"] = "underline";
+                        }
 
                         PageContainer.Controls.Add(pageLabel);
                     }
