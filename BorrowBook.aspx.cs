@@ -143,7 +143,7 @@ namespace Net_project
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Data Source=.; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 
@@ -191,7 +191,7 @@ namespace Net_project
 
                 string addNewBorrowerQuery = @"INSERT INTO Borrower (borrowerName, borrowerGender, borrowerAge, borrowerEmailAddress, borrowerPhoneNumber, borrowerAddress, borrowerFineStatus) OUTPUT INSERTED.borrowerId VALUES (@Name, @Gender, @Age, @Email, @PhoneNumber, @Address, @FineStatus)";
 
-                using (SqlConnection con = new SqlConnection("Data Source=.; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 

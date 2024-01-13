@@ -78,29 +78,25 @@ namespace Net_project
                 int startIndex = 1 + (currentPage - 1) * pageSize;
                 int endIndex = currentPage * pageSize;
 
-                string query = @"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE '%' + @SearchString + '%' AND deleted = 0) AS RowConstrainedResult WHERE RowNum BETWEEN @StartIndex AND @EndIndex";
+                string query = @"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY bookAvailability DESC, bookTitle ASC) AS RowNum, * FROM Book WHERE bookTitle LIKE @SearchString AND deleted = 0) AS RowConstrainedResult WHERE RowNum BETWEEN @StartIndex AND @EndIndex";
 
-                using (SqlConnection con = new SqlConnection("Data Source=.; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@SearchString", "%" + searchString + "%");
+                    cmd.Parameters.AddWithValue("@StartIndex", startIndex);
+                    cmd.Parameters.AddWithValue("@EndIndex", endIndex);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
                     {
-                        cmd.Parameters.AddWithValue("@SearchString", searchString);
-                        cmd.Parameters.AddWithValue("@StartIndex", startIndex);
-                        cmd.Parameters.AddWithValue("@EndIndex", endIndex);
-
-                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-
-                            if (dt.Rows.Count > 0)
-                            {
-                                BookTable.DataSource = dt;
-                                BookTable.DataBind();
-                            }
-                        }
+                        BookTable.DataSource = dt;
+                        BookTable.DataBind();
                     }
                 }
             }
@@ -115,7 +111,7 @@ namespace Net_project
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
                     string query = "SELECT COUNT(*) FROM Book WHERE deleted = 0";
@@ -129,7 +125,7 @@ namespace Net_project
                         Label pageLabel = new Label();
                         pageLabel.ID = "PageLabel_" + i;
                         pageLabel.Text = i.ToString();
-                        pageLabel.CssClass = "mx-2 border-0";
+                        pageLabel.CssClass = "mx-2 border-0 page-label";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handlePageLabelClick({i});";
                         if (i == currentPage)
@@ -145,17 +141,20 @@ namespace Net_project
             {
                 Response.Write(ex.ToString());
             }
+
         }
 
         public void GenerateSearchPage()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Data Source =.\\SQLEXPRESS; Initial Catalog = TestDatabase; Integrated Security = True; Pooling = False"))
+                using (SqlConnection con = new SqlConnection("Data Source=.\\SQLEXPRESS; Initial Catalog=TestDatabase; Integrated Security=True; Pooling=False"))
                 {
                     con.Open();
-                    string query = $"SELECT COUNT(*) FROM Book WHERE bookTitle LIKE '%{searchString}%' AND deleted = 0";
+                    string query = $"SELECT COUNT(*) FROM Book WHERE bookTitle LIKE @SearchString AND deleted = 0";
                     SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@SearchString", $"%{searchString}%");
+
                     int totalBooks = (int)cmd.ExecuteScalar();
 
                     int numberOfPages = (int)Math.Ceiling((double)totalBooks / 8);
@@ -165,7 +164,7 @@ namespace Net_project
                         Label pageLabel = new Label();
                         pageLabel.ID = "PageLabel_" + i;
                         pageLabel.Text = i.ToString();
-                        pageLabel.CssClass = "mx-2 border-0";
+                        pageLabel.CssClass = "mx-2 border-0 page-label";
                         pageLabel.Style["cursor"] = "pointer";
                         pageLabel.Attributes["onclick"] = $"handleSearchPageLabelClick({i}, '{searchString}');";
                         if (i == currentPage)
@@ -181,6 +180,7 @@ namespace Net_project
             {
                 Response.Write(ex.ToString());
             }
+
         }
 
         protected int CalculateItemIndex(int index)

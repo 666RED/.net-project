@@ -100,6 +100,7 @@
                         contentType: 'application/json; charset=utf-8',
                         dataType: 'json',
                         success: function (data) {
+                            console.log(data);
                             const parsedData = JSON.parse(data.d);
                             for (let i = 0; i < parsedData.length; i++) {
                                 const borrowerName = parsedData[i].borrowerName; 
