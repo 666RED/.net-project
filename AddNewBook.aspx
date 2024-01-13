@@ -48,7 +48,7 @@
                         <option value="Tamil">Tamil</option>
                     </select>
                     <div class="col-1"></div>
-                    <input type="number" min="0.01" step="0.01" class="border border-secondary col-5 rounded-3" id="price" required placeholder="RM" />
+                    <input type="number" min="0.01" step="0.01" max="999.99" class="border border-secondary col-5 rounded-3" id="price" required placeholder="RM" />
                 </div>
                 <div class="row mt-3">
                     <label class="form-label col-6 px-0">Rack Number:</label>
