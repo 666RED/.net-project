@@ -26,7 +26,7 @@ namespace Net_project
                 validLibrarianID.Text = "";
                 validEmail.Text = "";
                 validTelephone.Text = "";
-                String command = "SELECT * From librarian WHERE email = @email OR telephone = @telephone";
+                String command = "SELECT * From librarian WHERE email = @email OR telephone = @telephone OR librarianId LIKE @librarianId";
                 SqlDataAdapter cmdCheck = new SqlDataAdapter();
                 cmdCheck.InsertCommand = new SqlCommand(command, con);
                 con.Open();
