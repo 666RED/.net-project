@@ -37,7 +37,7 @@
                 </div>
                 <div class="row mt-3">
                     <label class="form-label p-0">Phone Number:</label>
-                    <input type="text" class="form-control border border-secondary read-input" id="phoneNumber" required />
+                    <input type="text" class="form-control border border-secondary read-input" id="phoneNumber" required pattern="[0-9]{9,11}"/>
                 </div>
                 <div class="row mt-3">
                     <label class="form-label p-0">Home Address:</label>
