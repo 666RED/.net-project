@@ -48,7 +48,7 @@
                     </div>
                     <div class="row mt-3">
                         <label class="form-label p-0">Phone Number:</label>
-                        <input type="text" class="form-control border border-secondary read-input" required id="phone-number-input"/>
+                        <input type="tel" class="form-control border border-secondary read-input" required id="phone-number-input" pattern="[0-9]{9,11}"/>
                     </div>
                     <div class="row mt-3">
                         <label class="form-label p-0">Home Address:</label>
