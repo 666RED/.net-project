@@ -10,8 +10,8 @@
         <thead>
             <tr>
                 <th scope="col" class="col-1 text-center">No</th>
-                <th scope="col" class="col-5">Borrower Name</th>
-                <th scope="col" class="col-2 text-center">Book Title</th>
+                <th scope="col" class="col-3">Borrower Name</th>
+                <th scope="col" class="col-4 text-center">Book Title</th>
                 <th scope="col" class="col-2 text-center">Borrow Date</th>
                 <th scope="col" class="col-2 text-center">Return Date</th>
             </tr>

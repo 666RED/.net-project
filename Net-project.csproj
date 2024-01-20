@@ -161,6 +161,7 @@
     <Content Include="Report.aspx" />
     <Content Include="Master Page\Styles\styles.css" />
     <Content Include="ReturnBook.aspx" />
+    <Content Include="ShowUnreturnedBook.aspx" />
     <Content Include="testing.aspx" />
     <Content Include="ViewBook.aspx" />
     <Content Include="ManageBorrower.aspx" />
@@ -256,6 +257,13 @@
     </Compile>
     <Compile Include="ReturnBook.aspx.designer.cs">
       <DependentUpon>ReturnBook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ShowUnreturnedBook.aspx.cs">
+      <DependentUpon>ShowUnreturnedBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowUnreturnedBook.aspx.designer.cs">
+      <DependentUpon>ShowUnreturnedBook.aspx</DependentUpon>
     </Compile>
     <Compile Include="testing.aspx.cs">
       <DependentUpon>testing.aspx</DependentUpon>

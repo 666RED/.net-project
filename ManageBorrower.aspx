@@ -37,7 +37,7 @@
                             <td class="text-center"><%# CalculateItemIndex(Container.ItemIndex + 1)%></td>
                             <td><%# Eval("borrowerName") %></td>
                             <td class="text-center"><%# Eval("borrowerPhoneNumber") %></td>
-                            <td class="text-center <%# Convert.ToInt32(Eval("borrowerFineStatus")) == 0 ? "" : "text-danger" %>"><%# Convert.ToInt32(Eval("borrowerFineStatus")) == 1 ? "Fined" : "Clear" %></td>
+                            <td class="text-center <%# Convert.ToInt32(Eval("borrowerFineStatus")) == 0 ? "" : "text-danger" %>" <%# Convert.ToInt32(Eval("borrowerFineStatus")) == 1 ? $"onclick='return showUnreturnedBook({Eval("borrowerId")})'" : "" %> style="cursor: <%# Convert.ToInt32(Eval("borrowerFineStatus")) == 1 ? "pointer" : "" %>"><%# Convert.ToInt32(Eval("borrowerFineStatus")) == 1 ? "Fined" : "Clear" %></td>
                             <td class="d-flex align-items-center justify-content-around">
                                 <button class="btn btn-primary op-btn" onclick='<%# "viewBorrower(" + Eval("borrowerId") + ")" %>'>View</button>
                                 <button class="btn btn-success op-btn px-3" onclick='<%# "editBorrower(" + Eval("borrowerId") + ")" %>'>Edit</button>
@@ -102,6 +102,10 @@
 
             const editBorrower = (id) => {
                 window.location.href = `EditBorrower.aspx?id=${id}`;
+            }
+
+            const showUnreturnedBook = (id) => {
+                window.location.href = `ShowUnreturnedBook.aspx?id=${id}`;
             }
 
         </script>
